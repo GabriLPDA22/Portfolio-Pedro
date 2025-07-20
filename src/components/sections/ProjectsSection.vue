@@ -4,8 +4,12 @@
     <div class="container">
       <h3 class="section-title">Proyectos Destacados</h3>
       <div class="projects__grid">
-        <div v-for="(project, index) in projectsData" :key="project.id" class="projects__card"
-          :style="{ animationDelay: `${index * 0.2}s` }">
+        <div
+          v-for="(project, index) in projectsData"
+          :key="project.id"
+          class="projects__card"
+          :style="{ animationDelay: `${index * 0.2}s` }"
+        >
           <div class="projects__image">
             <div class="projects__placeholder">
               <span class="projects__icon">{{ project.icon }}</span>
@@ -22,7 +26,11 @@
             <p class="projects__description">{{ project.description }}</p>
 
             <div class="projects__tech">
-              <span v-for="tech in project.technologies" :key="tech" class="projects__tech-tag">
+              <span
+                v-for="tech in project.technologies"
+                :key="tech"
+                class="projects__tech-tag"
+              >
                 {{ tech }}
               </span>
             </div>
@@ -44,7 +52,11 @@
           <div class="projects__modal-tech">
             <h4>Tecnologías utilizadas:</h4>
             <div class="projects__tech">
-              <span v-for="tech in selectedProject.technologies" :key="tech" class="projects__tech-tag">
+              <span
+                v-for="tech in selectedProject.technologies"
+                :key="tech"
+                class="projects__tech-tag"
+              >
                 {{ tech }}
               </span>
             </div>
@@ -309,7 +321,6 @@ export default {
     opacity: 0;
     transform: translateY(30px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -320,7 +331,6 @@ export default {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
@@ -331,7 +341,6 @@ export default {
     transform: translateY(30px);
     opacity: 0;
   }
-
   to {
     transform: translateY(0);
     opacity: 1;

@@ -1,0 +1,107 @@
+// Variables SASS - Portfolio Mecanizado
+
+// Colores principales
+$primary-color: #2563eb;
+$primary-dark: #1d4ed8;
+$primary-light: #3b82f6;
+
+$secondary-color: #64748b;
+$secondary-dark: #475569;
+$secondary-light: #94a3b8;
+
+$accent-color: #f59e0b;
+$accent-dark: #d97706;
+$accent-light: #fbbf24;
+
+// Colores de fondo
+$bg-dark: #0f172a;
+$bg-medium: #1e293b;
+$bg-light: #f8fafc;
+$bg-white: #ffffff;
+
+// Colores de texto
+$text-primary: #1e293b;
+$text-secondary: #64748b;
+$text-light: #cbd5e1;
+$text-white: #ffffff;
+
+// Colores de borde
+$border-color: #e2e8f0;
+$border-dark: #334155;
+
+// Espaciados
+$spacing-xs: 0.25rem;   // 4px
+$spacing-sm: 0.5rem;    // 8px
+$spacing-md: 1rem;      // 16px
+$spacing-lg: 1.5rem;    // 24px
+$spacing-xl: 2rem;      // 32px
+$spacing-2xl: 3rem;     // 48px
+$spacing-3xl: 4rem;     // 64px
+$spacing-4xl: 6rem;     // 96px
+
+// Tamaños de fuente
+$font-xs: 0.75rem;      // 12px
+$font-sm: 0.875rem;     // 14px
+$font-base: 1rem;       // 16px
+$font-lg: 1.125rem;     // 18px
+$font-xl: 1.25rem;      // 20px
+$font-2xl: 1.5rem;      // 24px
+$font-3xl: 1.875rem;    // 30px
+$font-4xl: 2.25rem;     // 36px
+$font-5xl: 3rem;        // 48px
+
+// Pesos de fuente
+$font-normal: 400;
+$font-medium: 500;
+$font-semibold: 600;
+$font-bold: 700;
+
+// Radios de borde
+$radius-sm: 0.25rem;    // 4px
+$radius-md: 0.5rem;     // 8px
+$radius-lg: 0.75rem;    // 12px
+$radius-xl: 1rem;       // 16px
+$radius-full: 50%;
+
+// Sombras
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// Transiciones
+$transition-fast: 0.15s ease-in-out;
+$transition-base: 0.3s ease-in-out;
+$transition-slow: 0.5s ease-in-out;
+
+// Z-index layers
+$z-dropdown: 1000;
+$z-sticky: 1020;
+$z-fixed: 1030;
+$z-modal-backdrop: 1040;
+$z-modal: 1050;
+$z-popover: 1060;
+$z-tooltip: 1070;
+
+// Gradientes
+$gradient-primary: linear-gradient(135deg, $primary-color 0%, $accent-color 100%);
+$gradient-dark: linear-gradient(135deg, $bg-dark 0%, $bg-medium 100%);
+$gradient-hero: linear-gradient(135deg, $bg-dark 0%, #1e293b 100%);
+
+// Animaciones
+$animation-duration-fast: 0.2s;
+$animation-duration-base: 0.3s;
+$animation-duration-slow: 0.5s;
+$animation-duration-gear: 8s;
+
+// Grid y contenedores
+$container-max-width: 1200px;
+$container-padding: $spacing-md;
+$container-padding-lg: $spacing-xl;

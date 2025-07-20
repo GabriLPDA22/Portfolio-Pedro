@@ -1,0 +1,48 @@
+{
+  "name": "portfolio-mecanizado",
+  "version": "1.0.0",
+  "description": "Portfolio profesional para técnico especialista en mecanizado",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "format": "prettier --write src/",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "dependencies": {
+    "vue": "^3.3.8",
+    "@vueuse/core": "^10.5.0",
+    "lucide-vue-next": "^0.292.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.53.0",
+    "eslint-plugin-vue": "^9.18.1",
+    "gh-pages": "^6.1.0",
+    "postcss": "^8.4.32",
+    "prettier": "^3.0.3",
+    "sass": "^1.69.5",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.0"
+  },
+  "keywords": [
+    "portfolio",
+    "mecanizado",
+    "cnc",
+    "técnico",
+    "vue",
+    "tailwind",
+    "sass",
+    "bem"
+  ],
+  "author": {
+    "name": "Tu Amigo",
+    "email": "contacto@tuamigo.com"
+  },
+  "license": "MIT"
+}

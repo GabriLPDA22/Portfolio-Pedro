@@ -1,0 +1,164 @@
+// Mixins SASS - Portfolio Mecanizado
+
+// Mobile First Media Queries
+@mixin mobile-first($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+// Breakpoint específicos
+@mixin sm {
+  @include mobile-first($breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin md {
+  @include mobile-first($breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @include mobile-first($breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @include mobile-first($breakpoint-xl) {
+    @content;
+  }
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Contenedor principal
+@mixin container {
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 0 $container-padding;
+
+  @include md {
+    padding: 0 $container-padding-lg;
+  }
+}
+
+// Sección con padding
+@mixin section-padding {
+  padding: $spacing-4xl 0;
+
+  @include md {
+    padding: $spacing-4xl 0;
+  }
+}
+
+// Títulos de sección
+@mixin section-title {
+  font-size: $font-3xl;
+  font-weight: $font-bold;
+  text-align: center;
+  margin-bottom: $spacing-2xl;
+  position: relative;
+
+  @include md {
+    font-size: $font-4xl;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: $accent-color;
+  }
+}
+
+// Botones
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md $spacing-xl;
+  border-radius: $radius-md;
+  text-decoration: none;
+  font-weight: $font-semibold;
+  transition: all $transition-base;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: $font-base;
+
+  &:focus {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
+}
+
+@mixin btn-primary {
+  @include btn-base;
+  background: $primary-color;
+  color: $text-white;
+
+  &:hover {
+    background: $primary-dark;
+    transform: translateY(-2px);
+  }
+}
+
+// Cards
+@mixin card {
+  background: $bg-white;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+  transition: transform $transition-base;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-xl;
+  }
+}
+
+// Grid responsivo
+@mixin grid-responsive($mobile: 1, $tablet: 2, $desktop: 3) {
+  display: grid;
+  grid-template-columns: repeat($mobile, 1fr);
+  gap: $spacing-lg;
+
+  @include md {
+    grid-template-columns: repeat($tablet, 1fr);
+  }
+
+  @include lg {
+    grid-template-columns: repeat($desktop, 1fr);
+  }
+}
+
+// Reduced motion
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+// Dark mode
+@mixin dark-mode {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}

@@ -1,0 +1,104 @@
+// Importar Tailwind
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+// Importar variables y mixins
+@import 'variables';
+@import 'mixins';
+
+// Reset y base
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  color: $text-primary;
+  background: $bg-light;
+  overflow-x: hidden;
+}
+
+// Smooth scroll
+html {
+  scroll-behavior: smooth;
+}
+
+// Utilidades globales
+.container {
+  @include container;
+}
+
+.section-padding {
+  @include section-padding;
+}
+
+.section-title {
+  @include section-title;
+}
+
+.btn-primary {
+  @include btn-primary;
+}
+
+.card {
+  @include card;
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+// Grid responsivo
+.grid-responsive-2 {
+  @include grid-responsive(1, 2, 2);
+}
+
+.grid-responsive-3 {
+  @include grid-responsive(1, 2, 3);
+}
+
+// Keyframes para animaciones
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+// Scrollbar personalizada
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-light;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primary-color;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $primary-dark;
+}
+
+// Estados de reducción de movimiento
+@include reduced-motion {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -4,7 +4,7 @@
 export const portfolioData = {
   // Información personal - 🔄 CAMBIAR TODOS ESTOS DATOS
   personal: {
-    name: "Tu Amigo", // 🔄 CAMBIAR por el nombre real
+    name: "Pedro Miguel Melo Sousa", // 🔄 CAMBIAR por el nombre real
     title: "Técnico Superior en Mecanizado",
     subtitle: "Especialista en Mecanizado de Precisión",
     description:

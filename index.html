@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Meta Tags -->
+    <title>Portfolio - Técnico Especialista en Mecanizado</title>
+    <meta
+      name="description"
+      content="Portfolio profesional de técnico especializado en mecanizado de precisión, programación CNC y fabricación industrial."
+    />
+    <meta
+      name="keywords"
+      content="mecanizado, CNC, técnico, programación, precisión, industrial, tornos, fresadoras"
+    />
+    <meta name="author" content="Tu Amigo" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tu-portfolio.com/" />
+    <meta
+      property="og:title"
+      content="Portfolio - Técnico Especialista en Mecanizado"
+    />
+    <meta
+      property="og:description"
+      content="Portfolio profesional de técnico especializado en mecanizado de precisión y programación CNC."
+    />
+    <meta property="og:image" content="/images/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://tu-portfolio.com/" />
+    <meta
+      property="twitter:title"
+      content="Portfolio - Técnico Especialista en Mecanizado"
+    />
+    <meta
+      property="twitter:description"
+      content="Portfolio profesional de técnico especializado en mecanizado de precisión y programación CNC."
+    />
+    <meta property="twitter:image" content="/images/og-image.jpg" />
+
+    <!-- Preconnect para mejorar performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts - Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tema y colores del navegador -->
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="msapplication-TileColor" content="#2563eb" />
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.js" as="script" crossorigin />
+
+    <!-- Structured Data para SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Tu Amigo",
+        "jobTitle": "Técnico Especialista en Mecanizado",
+        "description": "Profesional especializado en mecanizado de precisión, programación CNC y fabricación industrial",
+        "url": "https://tu-portfolio.com",
+        "sameAs": ["https://linkedin.com/in/tuamigo"],
+        "knowsAbout": [
+          "Mecanizado CNC",
+          "Programación ISO",
+          "Control de Calidad",
+          "Fabricación Industrial",
+          "Metrología"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Div principal donde se monta Vue -->
+    <div id="app"></div>
+
+    <!-- Mensaje para navegadores sin JavaScript -->
+    <noscript>
+      <strong>
+        Este portfolio requiere JavaScript para funcionar correctamente. Por
+        favor, habilita JavaScript en tu navegador.
+      </strong>
+    </noscript>
+
+    <!-- Script principal de Vue -->
+    <script type="module" src="/src/main.js"></script>
+
+    <!-- Loading spinner mientras carga la aplicación -->
+    <style>
+      /* Spinner de carga inicial */
+      #app:empty::after {
+        content: "";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 50px;
+        height: 50px;
+        margin: -25px 0 0 -25px;
+        border: 4px solid #e2e8f0;
+        border-top: 4px solid #2563eb;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 9999;
+      }
+
+      #app:empty::before {
+        content: "Cargando...";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, calc(-50% + 40px));
+        color: #64748b;
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        z-index: 9999;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Ocultar el spinner cuando la app carga */
+      #app:not(:empty)::after,
+      #app:not(:empty)::before {
+        display: none;
+      }
+    </style>
+  </body>
+</html>

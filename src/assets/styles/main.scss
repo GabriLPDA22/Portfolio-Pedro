@@ -1,104 +1,583 @@
-// Importar Tailwind
+// src/assets/styles/main.scss - MOBILE FIRST OPTIMIZADO
+
+// Importar Tailwind CSS
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-// Importar variables y mixins
+// Importar nuestros estilos
 @import 'variables';
 @import 'mixins';
 
-// Reset y base
+// Reset y base MOBILE FIRST
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  font-size: 14px; // Mobile first
+  scroll-behavior: smooth;
+
+  @media (min-width: 480px) {
+    font-size: 15px;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  line-height: 1.6;
-  color: $text-primary;
-  background: $bg-light;
+  line-height: 1.5; // Mobile first
+  color: #1e293b;
+  background: #f8fafc;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (min-width: 768px) {
+    line-height: 1.6;
+  }
 }
 
-// Smooth scroll
-html {
-  scroll-behavior: smooth;
-}
-
-// Utilidades globales
+// Utilidades MOBILE FIRST
 .container {
-  @include container;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem; // Mobile first
+
+  @media (min-width: 480px) {
+    padding: 0 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    padding: 0 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 0 2.5rem;
+  }
+
+  @media (min-width: 1200px) {
+    padding: 0 3rem;
+  }
 }
 
 .section-padding {
-  @include section-padding;
+  padding: 3rem 0; // Mobile first
+
+  @media (min-width: 480px) {
+    padding: 4rem 0;
+  }
+
+  @media (min-width: 768px) {
+    padding: 5rem 0;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 6rem 0;
+  }
 }
 
 .section-title {
-  @include section-title;
+  font-size: 2rem; // Mobile first
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  color: #1e293b;
+
+  @media (min-width: 480px) {
+    font-size: 2.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 3rem;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: #f59e0b;
+
+    @media (min-width: 768px) {
+      bottom: -10px;
+      width: 60px;
+      height: 4px;
+    }
+  }
 }
 
+// Botones MOBILE FIRST
 .btn-primary {
-  @include btn-primary;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem; // Mobile first
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-width: 120px;
+
+  @media (min-width: 480px) {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    min-width: 140px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
+    min-width: 160px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+
+    @media (min-width: 768px) {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(37, 99, 235, 0.5);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
 }
 
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem; // Mobile first
+  background: transparent;
+  color: #2563eb;
+  border: 2px solid #2563eb;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-width: 120px;
+
+  @media (min-width: 480px) {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    min-width: 140px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 0.75rem;
+    min-width: 160px;
+  }
+
+  &:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-2px);
+
+    @media (min-width: 768px) {
+      transform: translateY(-3px);
+    }
+  }
+
+  &:focus {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+}
+
+// Cards MOBILE FIRST
 .card {
-  @include card;
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1.25rem; // Mobile first
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+
+  @media (min-width: 480px) {
+    padding: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #2563eb;
+
+    @media (min-width: 768px) {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    }
+  }
 }
 
-.flex-center {
-  @include flex-center;
-}
-
-.flex-between {
-  @include flex-between;
-}
-
-// Grid responsivo
+// Grid responsivo MOBILE FIRST
 .grid-responsive-2 {
-  @include grid-responsive(1, 2, 2);
+  display: grid;
+  grid-template-columns: 1fr; // Mobile first
+  gap: 1rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    gap: 2rem;
+  }
 }
 
 .grid-responsive-3 {
-  @include grid-responsive(1, 2, 3);
+  display: grid;
+  grid-template-columns: 1fr; // Mobile first
+  gap: 1rem;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 968px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    gap: 2rem;
+  }
 }
 
-// Keyframes para animaciones
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+// Flexbox utilities MOBILE FIRST
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    flex-wrap: nowrap;
+    gap: 0;
+  }
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// Typography MOBILE FIRST
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+
+  @media (min-width: 768px) {
+    margin-bottom: 1rem;
+  }
+}
+
+h1 {
+  font-size: 2rem;
+
+  @media (min-width: 480px) {
+    font-size: 2.25rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 3rem;
+  }
+}
+
+h2 {
+  font-size: 1.75rem;
+
+  @media (min-width: 480px) {
+    font-size: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 2.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 2.5rem;
+  }
+}
+
+h3 {
+  font-size: 1.5rem;
+
+  @media (min-width: 480px) {
+    font-size: 1.625rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 1.75rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 2rem;
+  }
+}
+
+h4 {
+  font-size: 1.25rem;
+
+  @media (min-width: 768px) {
+    font-size: 1.375rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1.5rem;
+  }
+}
+
+p {
+  line-height: 1.6;
+  color: #64748b;
+  margin-bottom: 1rem;
+
+  @media (min-width: 768px) {
+    line-height: 1.7;
+  }
+}
+
+// Accesibilidad
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Focus styles mejorados
+*:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
 }
 
 // Scrollbar personalizada
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px; // Mobile first
+
+  @media (min-width: 768px) {
+    width: 8px;
+  }
 }
 
 ::-webkit-scrollbar-track {
-  background: $bg-light;
+  background: #f8fafc;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $primary-color;
-  border-radius: 4px;
+  background: #2563eb;
+  border-radius: 3px;
+
+  @media (min-width: 768px) {
+    border-radius: 4px;
+  }
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: $primary-dark;
+  background: #1d4ed8;
 }
 
-// Estados de reducción de movimiento
-@include reduced-motion {
+// Estados de loading
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+
+  &::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border: 3px solid #e2e8f0;
+    border-top: 3px solid #2563eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+
+    @media (min-width: 768px) {
+      width: 40px;
+      height: 40px;
+      border-width: 4px;
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Optimizaciones de rendimiento para móvil
+@media (max-width: 767px) {
+  // Reducir complejidad de sombras
+  .card:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+  }
+
+  // Simplificar transiciones
+  * {
+    transition-duration: 0.2s !important;
+  }
+}
+
+// Modo de ahorro de batería
+@media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .loading::after {
+    animation: none;
+    border: 3px solid #2563eb;
+  }
+}
+
+// Pantallas muy pequeñas
+@media (max-width: 320px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .section-padding {
+    padding: 2rem 0;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
+    min-width: 100px;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+}
+
+// Pantallas grandes
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1400px;
+  }
+
+  .section-padding {
+    padding: 8rem 0;
+  }
+}
+
+// Print styles
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    border: 1px solid black;
+    background: white;
+    color: black;
+  }
+
+  @page {
+    margin: 2cm;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid #000;
+  }
+
+  .btn-primary {
+    background: #000;
+    border: 2px solid #000;
+  }
+
+  .btn-secondary {
+    border-color: #000;
+    color: #000;
   }
 }

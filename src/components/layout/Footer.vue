@@ -1,16 +1,12 @@
-<!-- src/components/layout/Footer.vue -->
 <template>
   <footer class="footer">
     <div class="container">
       <div class="footer__content">
-        <!-- Información principal -->
         <div class="footer__main">
           <h3 class="footer__name">{{ portfolioData.personal.name }}</h3>
-          <p class="footer__title">{{ portfolioData.personal.title }}</p>
-          <p class="footer__description">{{ portfolioData.personal.subtitle }}</p>
+          <p class="footer__title">{{ portfolioData.personal.subtitle }}</p>
         </div>
 
-        <!-- Enlaces rápidos -->
         <div class="footer__links">
           <h4 class="footer__section-title">Navegación</h4>
           <ul class="footer__nav">
@@ -22,92 +18,78 @@
           </ul>
         </div>
 
-        <!-- Información de contacto -->
         <div class="footer__contact">
           <h4 class="footer__section-title">Contacto</h4>
           <div class="footer__contact-info">
             <a :href="`mailto:${portfolioData.contact.email}`" class="footer__contact-link">
-              📧 {{ portfolioData.contact.email }}
+              <Mail class="footer__icon" />
+              <span>{{ portfolioData.contact.email }}</span>
             </a>
             <a :href="`tel:${portfolioData.contact.phone}`" class="footer__contact-link">
-              📱 {{ portfolioData.contact.phone }}
+              <Phone class="footer__icon" />
+              <span>{{ portfolioData.contact.phone }}</span>
             </a>
             <span class="footer__contact-item">
-              📍 {{ portfolioData.personal.location }}
+              <MapPin class="footer__icon" />
+              <span>{{ portfolioData.personal.location }}</span>
             </span>
           </div>
         </div>
 
-        <!-- Redes sociales -->
         <div class="footer__social">
           <h4 class="footer__section-title">Sígueme</h4>
           <div class="footer__social-links">
-            <a
-              v-if="portfolioData.contact.linkedin"
-              :href="portfolioData.contact.linkedin"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="footer__social-link"
-              title="LinkedIn"
-            >
-              💼
+            <a v-if="portfolioData.contact.linkedin" :href="portfolioData.contact.linkedin" target="_blank" rel="noopener noreferrer" class="footer__social-link" title="LinkedIn">
+              <Linkedin />
             </a>
-            <a
-              v-if="portfolioData.contact.github"
-              :href="portfolioData.contact.github"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="footer__social-link"
-              title="GitHub"
-            >
-              🔗
+            <a v-if="portfolioData.contact.github" :href="portfolioData.contact.github" target="_blank" rel="noopener noreferrer" class="footer__social-link" title="GitHub">
+              <Github />
             </a>
-            <a
-              v-if="portfolioData.contact.website"
-              :href="portfolioData.contact.website"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="footer__social-link"
-              title="Website"
-            >
-              🌐
+             <a v-if="portfolioData.contact.website" :href="portfolioData.contact.website" target="_blank" rel="noopener noreferrer" class="footer__social-link" title="Website">
+              <Globe />
             </a>
           </div>
         </div>
       </div>
 
-      <!-- Separador -->
       <div class="footer__divider"></div>
 
-      <!-- Copyright y información adicional -->
       <div class="footer__bottom">
         <div class="footer__copyright">
           <p>&copy; {{ currentYear }} {{ portfolioData.personal.name }}. Todos los derechos reservados.</p>
         </div>
-
         <div class="footer__credits">
-          <p>
-            Desarrollado con ❤️ usando
-            <span class="footer__tech">Vue.js</span>,
-            <span class="footer__tech">Tailwind CSS</span> y
-            <span class="footer__tech">SASS</span>
-          </p>
+          <span>Desarrollado con</span>
+          <Heart class="footer__heart-icon" />
+          <span>usando Vue.js, Tailwind CSS y SASS</span>
         </div>
-
-        <!-- Botón volver arriba -->
-        <button @click="scrollToTop" class="footer__scroll-top" title="Volver arriba">
-          ⬆️
-        </button>
       </div>
     </div>
+
+    <transition name="fade">
+      <button v-show="showScrollTopButton" @click="scrollToTop" class="footer__scroll-top" title="Volver arriba">
+        <ArrowUp />
+      </button>
+    </transition>
   </footer>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { Mail, Phone, MapPin, Linkedin, Github, Globe, Heart, ArrowUp } from 'lucide-vue-next'
 
 export default {
   name: 'Footer',
+  components: {
+    Mail,
+    Phone,
+    MapPin,
+    Linkedin,
+    Github,
+    Globe,
+    Heart,
+    ArrowUp
+  },
   props: {
     portfolioData: {
       type: Object,
@@ -116,6 +98,11 @@ export default {
   },
   setup() {
     const currentYear = computed(() => new Date().getFullYear())
+    const showScrollTopButton = ref(false)
+
+    const handleScroll = () => {
+      showScrollTopButton.value = window.scrollY > 200
+    }
 
     const scrollToTop = () => {
       window.scrollTo({
@@ -124,270 +111,43 @@ export default {
       })
     }
 
+    onMounted(() => {
+      window.addEventListener('scroll', handleScroll)
+    })
+    onUnmounted(() => {
+      window.removeEventListener('scroll', handleScroll)
+    })
+
     return {
       currentYear,
-      scrollToTop
+      scrollToTop,
+      showScrollTopButton
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+// Variables de ejemplo (ajusta a tus valores reales)
+$bg-dark: #111827;
+$text-light: #9ca3af;
+$text-white: #f9fafb;
+$accent-color: #f59e0b;
+$primary-color: #3b82f6;
+$font-sm: 0.875rem;
+$font-base: 1rem;
+$font-xl: 1.5rem;
+$font-medium: 500;
+$font-semibold: 600;
+$font-bold: 700;
+$transition-base: 0.3s ease;
+$shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+$z-fixed: 1000;
+
 .footer {
-  background: $bg-dark;
+  background-color: $bg-dark;
   color: $text-light;
-  padding: 3rem 0 1rem;
-
-  &__content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    margin-bottom: 2rem;
-
-    @include sm {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @include lg {
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-    }
-  }
-
-  &__main {
-    @include lg {
-      grid-column: span 1;
-    }
-  }
-
-  &__name {
-    font-size: $font-xl;
-    font-weight: $font-bold;
-    color: $text-white;
-    margin-bottom: 0.5rem;
-  }
-
-  &__title {
-    font-size: $font-base;
-    color: $accent-color;
-    margin-bottom: 0.5rem;
-    font-weight: $font-medium;
-  }
-
-  &__description {
-    font-size: $font-sm;
-    line-height: 1.6;
-    color: $text-light;
-  }
-
-  &__section-title {
-    font-size: $font-base;
-    font-weight: $font-semibold;
-    color: $text-white;
-    margin-bottom: 1rem;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 30px;
-      height: 2px;
-      background: $accent-color;
-    }
-  }
-
-  &__nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      margin-bottom: 0.5rem;
-    }
-
-    a {
-      color: $text-light;
-      text-decoration: none;
-      font-size: $font-sm;
-      transition: color $transition-base;
-      display: block;
-      padding: 0.25rem 0;
-
-      &:hover {
-        color: $accent-color;
-        padding-left: 0.5rem;
-      }
-    }
-  }
-
-  &__contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  &__contact-link,
-  &__contact-item {
-    color: $text-light;
-    text-decoration: none;
-    font-size: $font-sm;
-    transition: color $transition-base;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
-    &:hover {
-      color: $accent-color;
-    }
-  }
-
-  &__contact-item {
-    cursor: default;
-  }
-
-  &__social-links {
-    display: flex;
-    gap: 1rem;
-  }
-
-  &__social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    background: rgba($text-light, 0.1);
-    border-radius: 50%;
-    text-decoration: none;
-    font-size: 1.25rem;
-    transition: all $transition-base;
-
-    &:hover {
-      background: $accent-color;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba($accent-color, 0.3);
-    }
-  }
-
-  &__divider {
-    height: 1px;
-    background: rgba($text-light, 0.2);
-    margin: 2rem 0 1rem;
-  }
-
-  &__bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    text-align: center;
-    position: relative;
-
-    @include md {
-      flex-direction: row;
-      justify-content: space-between;
-      text-align: left;
-    }
-  }
-
-  &__copyright,
-  &__credits {
-    p {
-      font-size: $font-xs;
-      color: rgba($text-light, 0.8);
-      margin: 0;
-    }
-  }
-
-  &__tech {
-    color: $accent-color;
-    font-weight: $font-medium;
-  }
-
-  &__scroll-top {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 3rem;
-    height: 3rem;
-    background: $primary-color;
-    border: none;
-    border-radius: 50%;
-    font-size: 1.25rem;
-    cursor: pointer;
-    transition: all $transition-base;
-    z-index: $z-fixed;
-    box-shadow: $shadow-lg;
-
-    @include md {
-      position: static;
-      bottom: auto;
-      right: auto;
-    }
-
-    &:hover {
-      background: $accent-color;
-      transform: translateY(-2px);
-    }
-  }
-}
-
-// Responsive adjustments
-@media (max-width: 640px) {
-  .footer {
-    padding: 2rem 0 1rem;
-
-    &__content {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    &__main {
-      text-align: center;
-    }
-
-    &__social-links {
-      justify-content: center;
-    }
-
-    &__bottom {
-      gap: 0.5rem;
-    }
-
-    &__scroll-top {
-      bottom: 1rem;
-      right: 1rem;
-      width: 2.5rem;
-      height: 2.5rem;
-      font-size: 1rem;
-    }
-  }
-}
-
-// Animaciones
-.footer {
-  animation: fadeInUp 0.8s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Estados especiales
-.footer__social-link:nth-child(1) { animation-delay: 0.1s; }
-.footer__social-link:nth-child(2) { animation-delay: 0.2s; }
-.footer__social-link:nth-child(3) { animation-delay: 0.3s; }
-
-// Efecto de partículas en el fondo (opcional)
-.footer {
+  padding: 4rem 1rem 2rem;
   position: relative;
   overflow: hidden;
 
@@ -398,17 +158,215 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background:
-      radial-gradient(circle at 20% 50%, rgba($accent-color, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba($primary-color, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, rgba($accent-color, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+    background: radial-gradient(circle at 20% 30%, rgba($primary-color, 0.05), transparent 40%);
+    opacity: 0.5;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.footer__content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.footer__main, .footer__links, .footer__contact, .footer__social {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer__name {
+  font-size: $font-xl;
+  font-weight: $font-bold;
+  color: $text-white;
+  margin-bottom: 0.25rem;
+}
+
+.footer__title {
+  font-size: $font-base;
+  color: $accent-color;
+  font-weight: $font-medium;
+}
+
+.footer__section-title {
+  font-size: $font-base;
+  font-weight: $font-semibold;
+  color: $text-white;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: $accent-color;
+  }
+}
+
+.footer__nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  a {
+    color: $text-light;
+    text-decoration: none;
+    transition: color $transition-base, transform $transition-base;
+    &:hover {
+      color: $accent-color;
+      transform: translateX(4px);
+    }
+  }
+}
+
+.footer__contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer__contact-link, .footer__contact-item {
+  color: $text-light;
+  text-decoration: none;
+  font-size: $font-sm;
+  transition: color $transition-base;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  &:hover {
+    color: $accent-color;
+  }
+}
+
+.footer__contact-item {
+  cursor: default;
+}
+
+.footer__icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.footer__social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.footer__social-link {
+  color: $text-light;
+  &:hover {
+    color: $accent-color;
+    transform: translateY(-3px);
+  }
+}
+
+.footer__divider {
+  height: 1px;
+  background: rgba($text-light, 0.1);
+  margin: 0 auto 2rem;
+  width: 100%;
+}
+
+.footer__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  text-align: center;
+  font-size: $font-sm;
+}
+
+.footer__credits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  color: $text-light;
+}
+
+.footer__heart-icon {
+  width: 1rem;
+  height: 1rem;
+  color: $accent-color;
+  flex-shrink: 0;
+}
+
+.footer__scroll-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  background: $primary-color;
+  color: $text-white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+  z-index: $z-fixed;
+  box-shadow: $shadow-lg;
+
+  &:hover {
+    background: $accent-color;
+    transform: scale(1.1);
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+@media (min-width: 768px) {
+  .footer__bottom {
+    flex-direction: row;
+    justify-content: space-between;
   }
 
-  > .container {
-    position: relative;
-    z-index: 1;
+  .footer__content {
+    grid-template-columns: repeat(2, 1fr);
+    text-align: left;
+  }
+
+  .footer__main, .footer__links, .footer__contact, .footer__social {
+    align-items: flex-start;
+  }
+
+  .footer__section-title::after {
+    left: 0;
+    transform: translateX(0);
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer__content {
+    grid-template-columns: 2fr 1fr 1.5fr 1fr;
   }
 }
 </style>

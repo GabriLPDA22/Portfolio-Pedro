@@ -1,13 +1,11 @@
 <template>
   <header class="header">
     <nav class="header__nav">
-      <!-- Brand/Logo -->
       <div class="header__brand">
         <h1 class="header__logo">{{ portfolioData.personal.name }}</h1>
         <span class="header__subtitle">{{ portfolioData.personal.title }}</span>
       </div>
 
-      <!-- Mobile Menu Toggle -->
       <button
         class="header__menu-toggle"
         @click="$emit('toggle-mobile-menu')"
@@ -19,7 +17,6 @@
         <span></span>
       </button>
 
-      <!-- Navigation Menu -->
       <ul class="header__nav-list" :class="{ 'header__nav-list--open': isMobileMenuOpen }">
         <li class="header__nav-item">
           <a href="#about" @click="$emit('close-mobile-menu')" class="header__nav-link">
@@ -87,10 +84,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-
-    @media (min-width: 768px) {
-      padding: 1rem 2rem;
-    }
+    position: relative;
   }
 
   &__brand {
@@ -104,20 +98,12 @@ export default {
     font-weight: 700;
     color: #2563eb;
     line-height: 1;
-
-    @media (min-width: 768px) {
-      font-size: 1.5rem;
-    }
   }
 
   &__subtitle {
     font-size: 0.75rem;
     color: #64748b;
     font-weight: 500;
-
-    @media (min-width: 768px) {
-      font-size: 0.875rem;
-    }
   }
 
   &__menu-toggle {
@@ -130,10 +116,7 @@ export default {
     border: none;
     cursor: pointer;
     padding: 0;
-
-    @media (min-width: 768px) {
-      display: none;
-    }
+    z-index: 1040;
 
     span {
       width: 100%;
@@ -148,12 +131,10 @@ export default {
       span:nth-child(1) {
         transform: rotate(45deg) translate(6px, 6px);
       }
-
       span:nth-child(2) {
         opacity: 0;
         transform: scale(0);
       }
-
       span:nth-child(3) {
         transform: rotate(-45deg) translate(6px, -6px);
       }
@@ -162,62 +143,49 @@ export default {
 
   &__nav-list {
     position: fixed;
-    top: 100%;
+    top: 0;
     left: 0;
-    right: 0;
+    width: 100%;
+    height: 100vh;
     background: white;
+    display: flex;
     flex-direction: column;
-    padding: 2rem 1rem;
-    transform: translateY(-100%);
-    transition: transform 0.3s ease;
-    border-bottom: 1px solid #e2e8f0;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
     list-style: none;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-
-    @media (min-width: 768px) {
-      position: static;
-      flex-direction: row;
-      padding: 0;
-      background: none;
-      transform: none;
-      border: none;
-      box-shadow: none;
-      display: flex;
-      gap: 2rem;
-    }
+    padding: 0;
+    margin: 0;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
 
     &--open {
-      transform: translateY(0);
+      transform: translateX(0);
+      box-shadow: 5px 0px 15px rgba(0, 0, 0, 0.1);
     }
   }
 
   &__nav-item {
-    margin: 1rem 0;
-
-    @media (min-width: 768px) {
-      margin: 0;
-    }
+    margin: 0;
+    text-align: center;
   }
 
   &__nav-link {
     display: block;
     text-decoration: none;
     color: #1e293b;
-    font-weight: 500;
-    font-size: 1.125rem;
-    padding: 0.5rem 0;
+    font-weight: 600;
+    font-size: 1.75rem;
+    padding: 0.5rem 1rem;
     position: relative;
     transition: color 0.3s ease;
-
-    @media (min-width: 768px) {
-      font-size: 1rem;
-    }
 
     &::after {
       content: '';
       position: absolute;
       bottom: -2px;
-      left: 0;
+      left: 50%;
+      transform: translateX(-50%);
       width: 0;
       height: 2px;
       background: #f59e0b;
@@ -226,10 +194,54 @@ export default {
 
     &:hover {
       color: #2563eb;
-
       &::after {
         width: 100%;
       }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .header {
+    &__nav {
+      padding: 1rem 2rem;
+    }
+
+    &__logo {
+      font-size: 1.5rem;
+    }
+
+    &__subtitle {
+      font-size: 0.875rem;
+    }
+
+    &__menu-toggle {
+      display: none;
+    }
+
+    &__nav-list {
+      position: static;
+      flex-direction: row;
+      height: auto;
+      width: auto;
+      transform: none;
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      gap: 2rem;
+
+      &--open {
+        transform: none;
+      }
+    }
+
+    &__nav-item {
+      margin: 0;
+    }
+
+    &__nav-link {
+      font-size: 1rem;
+      font-weight: 500;
     }
   }
 }

@@ -1,71 +1,75 @@
-<!-- src/components/sections/ContactSection.vue -->
 <template>
   <section id="contact" class="contact section-padding">
     <div class="container">
-      <h3 class="section-title">Contacto</h3>
-      <div class="contact__content">
-        <!-- Información de contacto -->
-        <div class="contact__info">
-          <div class="contact__item" v-for="(item, index) in contactItems" :key="item.type"
-            :style="{ animationDelay: `${index * 0.1}s` }">
-            <div class="contact__icon">{{ item.icon }}</div>
-            <div class="contact__details">
-              <h4>{{ item.label }}</h4>
-              <p>
-                <a v-if="item.link" :href="item.link" target="_blank" rel="noopener">
-                  {{ item.value }}
-                </a>
-                <span v-else>{{ item.value }}</span>
-              </p>
+      <div class="contact__header">
+        <h3 class="section-title">Contacto</h3>
+        <p class="contact__subtitle">
+          ¿Listo para trabajar juntos? Ponte en contacto conmigo.
+        </p>
+      </div>
+
+      <div class="contact__grid">
+        <div
+          v-for="(item, index) in contactItems"
+          :key="item.type"
+          class="contact__card"
+          :style="{ animationDelay: `${index * 0.15}s` }"
+        >
+          <div class="contact__card-icon">
+            <component :is="item.iconComponent" class="contact__icon" />
+          </div>
+
+          <div class="contact__card-content">
+            <h4 class="contact__card-title">{{ item.label }}</h4>
+            <div class="contact__card-value">
+              <a v-if="item.link" :href="item.link" target="_blank" rel="noopener">
+                {{ item.value }}
+              </a>
+              <span v-else>{{ item.value }}</span>
             </div>
+            <p v-if="item.description" class="contact__card-description">
+              {{ item.description }}
+            </p>
+          </div>
+
+          <div class="contact__card-action" v-if="item.actionText">
+            <button class="contact__action-btn" @click="handleContactAction(item)">
+              {{ item.actionText }}
+              <ArrowRight class="contact__btn-arrow" />
+            </button>
           </div>
         </div>
+      </div>
 
-        <!-- Formulario de contacto -->
-        <div class="contact__form-container">
-          <form @submit.prevent="handleSubmit" class="contact__form">
-            <h4 class="contact__form-title">Envíame un mensaje</h4>
+      <div class="contact__cta">
+        <div class="contact__cta-card">
+          <div class="contact__cta-content">
+            <h4>¿Tienes un proyecto en mente?</h4>
+            <p>Hablemos sobre cómo puedo ayudarte con tu próximo desafío de mecanizado.</p>
+          </div>
+          <div class="contact__cta-actions">
+            <a :href="`mailto:${contactData.email}`" class="contact__cta-btn contact__cta-btn--primary">
+              <Mail class="contact__cta-icon" />
+              <span>Enviar Email</span>
+            </a>
+            <a :href="contactData.linkedin" target="_blank" rel="noopener noreferrer" class="contact__cta-btn contact__cta-btn--secondary">
+              <Linkedin class="contact__cta-icon" />
+              <span>LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </div>
 
-            <div class="contact__form-group">
-              <label for="name" class="contact__label">Nombre</label>
-              <input type="text" id="name" v-model="form.name" class="contact__input"
-                :class="{ 'contact__input--error': errors.name }" placeholder="Tu nombre completo" required>
-              <span v-if="errors.name" class="contact__error">{{ errors.name }}</span>
-            </div>
-
-            <div class="contact__form-group">
-              <label for="email" class="contact__label">Email</label>
-              <input type="email" id="email" v-model="form.email" class="contact__input"
-                :class="{ 'contact__input--error': errors.email }" placeholder="tu@email.com" required>
-              <span v-if="errors.email" class="contact__error">{{ errors.email }}</span>
-            </div>
-
-            <div class="contact__form-group">
-              <label for="subject" class="contact__label">Asunto</label>
-              <input type="text" id="subject" v-model="form.subject" class="contact__input"
-                placeholder="Asunto del mensaje">
-            </div>
-
-            <div class="contact__form-group">
-              <label for="message" class="contact__label">Mensaje</label>
-              <textarea id="message" v-model="form.message" class="contact__textarea"
-                :class="{ 'contact__input--error': errors.message }" placeholder="Escribe tu mensaje aquí..." rows="5"
-                required></textarea>
-              <span v-if="errors.message" class="contact__error">{{ errors.message }}</span>
-            </div>
-
-            <button type="submit" class="contact__submit" :disabled="isSubmitting"
-              :class="{ 'contact__submit--loading': isSubmitting }">
-              <span v-if="!isSubmitting">Enviar Mensaje</span>
-              <span v-else>Enviando...</span>
-            </button>
-
-            <!-- Mensaje de estado -->
-            <div v-if="submitMessage" class="contact__message"
-              :class="{ 'contact__message--success': submitSuccess, 'contact__message--error': !submitSuccess }">
-              {{ submitMessage }}
-            </div>
-          </form>
+      <div class="contact__professional">
+        <div class="contact__professional-content">
+          <div class="contact__availability">
+            <div class="contact__availability-indicator"></div>
+            <span>Disponible para nuevos proyectos</span>
+          </div>
+          <div class="contact__response-time">
+            <Clock class="contact__clock-icon" />
+            <span>Tiempo de respuesta: 24-48 horas</span>
+          </div>
         </div>
       </div>
     </div>
@@ -73,10 +77,14 @@
 </template>
 
 <script>
-import { ref, computed, reactive } from 'vue'
+import { computed } from 'vue'
+import { Mail, Phone, MapPin, Linkedin, Clock, ArrowRight } from 'lucide-vue-next'
 
 export default {
   name: 'ContactSection',
+  components: {
+    Mail, Phone, MapPin, Linkedin, Clock, ArrowRight
+  },
   props: {
     contactData: {
       type: Object,
@@ -88,478 +96,337 @@ export default {
     }
   },
   setup(props) {
-    const form = reactive({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    })
-
-    const errors = ref({})
-    const isSubmitting = ref(false)
-    const submitMessage = ref('')
-    const submitSuccess = ref(false)
-
     const contactItems = computed(() => [
       {
         type: 'email',
+        iconComponent: Mail,
         label: 'Email',
         value: props.contactData.email,
-        icon: '📧',
-        link: `mailto:${props.contactData.email}`
+        link: `mailto:${props.contactData.email}`,
+        description: 'Perfecto para consultas detalladas.',
+        actionText: 'Enviar Email'
       },
       {
         type: 'phone',
+        iconComponent: Phone,
         label: 'Teléfono',
         value: props.contactData.phone,
-        icon: '📱',
-        link: `tel:${props.contactData.phone}`
+        description: 'Disponible en horario laboral.'
       },
       {
         type: 'location',
+        iconComponent: MapPin,
         label: 'Ubicación',
         value: props.contactData.address || props.personalData.location,
-        icon: '📍',
-        link: null
+        description: 'Disponible para proyectos locales.'
       },
       {
         type: 'linkedin',
+        iconComponent: Linkedin,
         label: 'LinkedIn',
-        value: props.contactData.linkedin.replace('https://linkedin.com/in/', '/in/'),
-        icon: '💼',
-        link: props.contactData.linkedin
+        value: 'Conectemos profesionalmente',
+        link: props.contactData.linkedin,
+        description: 'Visita mi perfil para ver más detalles.',
+        actionText: 'Ver Perfil'
       }
     ])
 
-    const validateForm = () => {
-      errors.value = {}
-
-      if (!form.name.trim()) {
-        errors.value.name = 'El nombre es requerido'
-      }
-
-      if (!form.email.trim()) {
-        errors.value.email = 'El email es requerido'
-      } else if (!/\S+@\S+\.\S+/.test(form.email)) {
-        errors.value.email = 'El email no es válido'
-      }
-
-      if (!form.message.trim()) {
-        errors.value.message = 'El mensaje es requerido'
-      } else if (form.message.length < 10) {
-        errors.value.message = 'El mensaje debe tener al menos 10 caracteres'
-      }
-
-      return Object.keys(errors.value).length === 0
-    }
-
-    const handleSubmit = async () => {
-      if (!validateForm()) {
-        return
-      }
-
-      isSubmitting.value = true
-      submitMessage.value = ''
-
-      try {
-        // Simular envío del formulario
-        // Aquí deberías integrar con tu servicio de email (EmailJS, Netlify Forms, etc.)
-
-        await new Promise(resolve => setTimeout(resolve, 2000))
-
-        // Simular éxito (en producción esto dependería del servicio real)
-        submitSuccess.value = true
-        submitMessage.value = '¡Mensaje enviado correctamente! Te responderé pronto.'
-
-        // Limpiar formulario
-        Object.keys(form).forEach(key => {
-          form[key] = ''
-        })
-
-      } catch (error) {
-        submitSuccess.value = false
-        submitMessage.value = 'Error al enviar el mensaje. Por favor, inténtalo de nuevo.'
-      } finally {
-        isSubmitting.value = false
-
-        // Limpiar mensaje después de 5 segundos
-        setTimeout(() => {
-          submitMessage.value = ''
-        }, 5000)
+    const handleContactAction = (item) => {
+      if (item.link) {
+        window.open(item.link, item.type === 'linkedin' ? '_blank' : '_self')
       }
     }
 
     return {
-      form,
-      errors,
-      isSubmitting,
-      submitMessage,
-      submitSuccess,
       contactItems,
-      handleSubmit
+      handleContactAction
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/variables.scss';
+@import '@/assets/styles/mixins.scss';
+
 .contact {
-  background: $bg-white;
+  background: #0f172a;
 
-  &__content {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 3rem;
+  &__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
 
-    @include lg {
-      grid-template-columns: 1fr 1fr;
+  .section-title {
+    font-size: clamp(2.25rem, 5vw, 3rem); // Tipografía Fluida
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+    color: $accent-color;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 3px;
+      background: $accent-color;
+      border-radius: 2px;
     }
   }
 
-  &__info {
-    display: grid;
-    gap: 1.5rem;
+  &__subtitle {
+    font-size: 1.125rem;
+    color: $text-light;
+    margin-top: 1rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: $bg-light;
-    border-radius: $radius-lg;
-    transition: all $transition-base;
-    animation: fadeInLeft 0.8s ease-out both;
+  &__grid {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 4rem;
+
+    @media (min-width: 640px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__card {
+    background: rgba(248, 250, 252, 0.05);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(248, 250, 252, 0.1);
+    transition: all 0.35s ease;
+    animation: fade-in-up 0.6s ease both;
+    backdrop-filter: blur(12px);
+    display: flex; // Usamos Flexbox
+    flex-direction: column; // En columna
+    text-align: left; // Alineamos el texto a la izquierda
 
     &:hover {
-      transform: translateX(10px);
-      box-shadow: $shadow-md;
+      transform: translateY(-10px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+      border-color: $accent-color;
+
+      .contact__action-btn .contact__btn-arrow {
+        transform: translateX(4px);
+      }
     }
+  }
+
+  &__card-icon {
+    margin-bottom: 1.5rem;
+    text-align: center;
   }
 
   &__icon {
-    font-size: 1.5rem;
-    width: 3rem;
-    height: 3rem;
-    background: $primary-color;
+    color: $accent-color;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  &__card-content {
+    flex-grow: 1; // Hace que esta sección ocupe el espacio disponible
+    margin-bottom: 1.5rem;
+  }
+
+  &__card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
     color: $text-white;
-    border-radius: 50%;
-    display: flex;
+    margin-bottom: 0.5rem;
+  }
+
+  &__card-value {
+    margin-bottom: 1rem;
+    a, span {
+      font-size: 1rem;
+      color: $text-light;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.3s ease;
+      word-break: break-all;
+    }
+    a:hover {
+      color: $accent-color;
+    }
+  }
+
+  &__card-description {
+    font-size: 0.875rem;
+    color: rgba($text-light, 0.7);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  &__action-btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-  }
-
-  &__details {
-    flex: 1;
-
-    h4 {
-      font-weight: $font-semibold;
-      margin-bottom: 0.25rem;
-      color: $text-primary;
-    }
-
-    p {
-      margin: 0;
-      color: $text-secondary;
-
-      a {
-        color: $primary-color;
-        text-decoration: none;
-        transition: color $transition-base;
-
-        &:hover {
-          color: $accent-color;
-        }
-      }
-    }
-  }
-
-  &__form-container {
-    background: $bg-light;
-    padding: 2rem;
-    border-radius: $radius-lg;
-    animation: fadeInRight 0.8s ease-out both;
-  }
-
-  &__form {
+    gap: 0.5rem;
     width: 100%;
-  }
-
-  &__form-title {
-    font-size: $font-xl;
-    font-weight: $font-semibold;
-    color: $text-primary;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-
-  &__form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  &__label {
-    display: block;
-    font-weight: $font-medium;
-    color: $text-primary;
-    margin-bottom: 0.5rem;
-    font-size: $font-sm;
-  }
-
-  &__input,
-  &__textarea {
-    width: 100%;
+    background: transparent;
+    color: $accent-color;
+    border: 1px solid $accent-color;
     padding: 0.75rem 1rem;
-    border: 2px solid $border-color;
-    border-radius: $radius-md;
-    font-size: $font-base;
-    transition: all $transition-base;
-    font-family: inherit;
-
-    &:focus {
-      outline: none;
-      border-color: $primary-color;
-      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
-    }
-
-    &::placeholder {
-      color: $text-secondary;
-    }
-
-    &--error {
-      border-color: #ef4444;
-
-      &:focus {
-        border-color: #ef4444;
-        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-      }
-    }
-  }
-
-  &__textarea {
-    resize: vertical;
-    min-height: 120px;
-  }
-
-  &__error {
-    display: block;
-    color: #ef4444;
-    font-size: $font-xs;
-    margin-top: 0.25rem;
-  }
-
-  &__submit {
-    width: 100%;
-    background: $primary-color;
-    color: $text-white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: $radius-md;
-    font-size: $font-base;
-    font-weight: $font-semibold;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
     cursor: pointer;
-    transition: all $transition-base;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s ease;
 
-    &:hover:not(:disabled) {
-      background: $primary-dark;
-      transform: translateY(-2px);
-      box-shadow: $shadow-lg;
-    }
-
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-
-    &--loading {
-      &::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        right: 1rem;
-        width: 1rem;
-        height: 1rem;
-        border: 2px solid transparent;
-        border-top: 2px solid currentColor;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
+    &:hover {
+      background: $accent-color;
+      color: #0f172a;
     }
   }
 
-  &__message {
-    margin-top: 1rem;
-    padding: 0.75rem 1rem;
-    border-radius: $radius-md;
+  &__btn-arrow {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  &__cta {
+    margin: 4rem 0;
+  }
+
+  &__cta-card {
+    background: rgba(248, 250, 252, 0.05);
+    border-radius: 1.5rem;
+    padding: 2rem;
     text-align: center;
-    font-weight: $font-medium;
-    animation: slideDown 0.3s ease-out;
+    border: 1px solid rgba(248, 250, 252, 0.1);
+    backdrop-filter: blur(15px);
 
-    &--success {
-      background: rgba(34, 197, 94, 0.1);
-      color: #16a34a;
-      border: 1px solid rgba(34, 197, 94, 0.3);
-    }
-
-    &--error {
-      background: rgba(239, 68, 68, 0.1);
-      color: #dc2626;
-      border: 1px solid rgba(239, 68, 68, 0.3);
+    @media (min-width: 768px) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      padding: 3rem;
     }
   }
-}
 
-// Animaciones
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Responsive
-@media (max-width: 1023px) {
-  .contact {
-    &__content {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+  &__cta-content {
+    margin-bottom: 2rem;
+    @media (min-width: 768px) {
+      margin-bottom: 0;
+      flex: 1;
+      margin-right: 2rem;
     }
-
-    &__form-container {
-      padding: 1.5rem;
+    h4 {
+      font-size: clamp(1.25rem, 4vw, 1.75rem);
+      font-weight: 700;
+      color: $text-white;
+      margin-bottom: 0.75rem;
+    }
+    p {
+      font-size: 1rem;
+      color: $text-light;
+      margin: 0;
+      line-height: 1.6;
+      max-width: 500px;
     }
   }
-}
 
-@media (max-width: 767px) {
-  .contact {
-    &__item {
-      flex-direction: column;
-      text-align: center;
-      padding: 1rem;
+  &__cta-actions {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    @media (min-width: 480px) {
+      flex-direction: row;
+      justify-content: center;
+    }
+    @media (min-width: 768px) {
+      justify-content: flex-end;
+    }
+  }
 
+  &__cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+
+    &--primary {
+      background: $accent-color;
+      color: #0f172a;
       &:hover {
-        transform: translateY(-5px);
+        background: lighten($accent-color, 5%);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba($accent-color, 0.3);
       }
     }
-
-    &__icon {
-      margin-bottom: 0.5rem;
-    }
-
-    &__form-container {
-      padding: 1rem;
-    }
-
-    &__submit {
-      padding: 0.875rem 1.5rem;
-    }
-  }
-}
-
-// Dark mode
-@include dark-mode {
-  .contact {
-    background: $bg-medium;
-
-    &__item {
-      background: $bg-dark;
-    }
-
-    &__details {
-      h4 {
-        color: $text-white;
-      }
-
-      p {
-        color: $text-light;
-      }
-    }
-
-    &__form-container {
-      background: $bg-dark;
-    }
-
-    &__form-title {
+    &--secondary {
+      background: rgba(248, 250, 252, 0.1);
       color: $text-white;
-    }
-
-    &__label {
-      color: $text-white;
-    }
-
-    &__input,
-    &__textarea {
-      background: $bg-medium;
-      border-color: $border-dark;
-      color: $text-white;
-
-      &::placeholder {
-        color: $text-light;
-      }
-
-      &:focus {
-        border-color: $primary-color;
+      border-color: rgba(248, 250, 252, 0.2);
+      &:hover {
+        background: rgba(248, 250, 252, 0.15);
+        border-color: rgba(248, 250, 252, 0.3);
+        transform: translateY(-3px);
       }
     }
   }
+
+  &__cta-icon, &__clock-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  &__professional-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem 2rem;
+    flex-wrap: wrap;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(248, 250, 252, 0.1);
+  }
+
+  &__availability, &__response-time {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: $text-light;
+    font-size: 0.875rem;
+  }
+
+  &__availability-indicator {
+    width: 10px;
+    height: 10px;
+    background: #10b981;
+    border-radius: 50%;
+    animation: pulse-indicator 2s infinite;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.7);
+  }
 }
 
-// Estados especiales para animaciones secuenciales
-.contact__item:nth-child(1) {
-  animation-delay: 0.1s;
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.contact__item:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.contact__item:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-.contact__item:nth-child(4) {
-  animation-delay: 0.4s;
+@keyframes pulse-indicator {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.7; }
 }
 </style>
